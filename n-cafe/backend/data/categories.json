@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Special Items",
+    "description": "Chef signature seasonal creations and rare delicacies",
+    "icon": "Sparkles",
+    "displayOrder": 7,
+    "_id": "96894b2e6426f43aa580b6ae",
+    "createdAt": "2026-11-22T09:54:04.862Z",
+    "updatedAt": "2026-11-22T09:54:04.862Z"
+  },
+  {
+    "name": "Desserts",
+    "description": "Freshly baked pastries, warm brownies and decadence",
+    "icon": "Cake",
+    "displayOrder": 6,
+    "_id": "3334b4f0ee4230baeffd4e65",
+    "createdAt": "2026-11-22T09:54:04.861Z",
+    "updatedAt": "2026-11-22T09:54:04.861Z"
+  },
+  {
+    "name": "Sandwiches",
+    "description": "Toasted gourmet sourdough sandwiches and grilled paninis",
+    "icon": "Sandwich",
+    "displayOrder": 5,
+    "_id": "e95f2cadcb161cac8023eb44",
+    "createdAt": "2026-11-22T09:54:04.861Z",
+    "updatedAt": "2026-11-22T09:54:04.861Z"
+  },
+  {
+    "name": "Snacks",
+    "description": "Crunchy savory bites, artisanal fries and puffs",
+    "icon": "Utensils",
+    "displayOrder": 4,
+    "_id": "6dae2b56cbd541fc74653ba4",
+    "createdAt": "2026-11-22T09:54:04.860Z",
+    "updatedAt": "2026-11-22T09:54:04.860Z"
+  },
+  {
+    "name": "Cold Beverages",
+    "description": "Refreshing sparklers, iced coolers and creamy frappés",
+    "icon": "GlassWater",
+    "displayOrder": 3,
+    "_id": "6f44879c9eb77b28585b7b53",
+    "createdAt": "2026-11-22T09:54:04.860Z",
+    "updatedAt": "2026-11-22T09:54:04.860Z"
+  },
+  {
+    "name": "Tea",
+    "description": "Artisanal single-estate leaves, masala chai and ceremonial matcha",
+    "icon": "CupSoda",
+    "displayOrder": 2,
+    "_id": "3addd3dfc49ea414658b2737",
+    "createdAt": "2026-11-22T09:54:04.859Z",
+    "updatedAt": "2026-11-22T09:54:04.859Z"
+  },
+  {
+    "name": "Coffee",
+    "description": "Handcrafted espresso, pourovers and specialty iced coffees",
+    "icon": "Coffee",
+    "displayOrder": 1,
+    "_id": "0028eed9214ca440f459e3aa",
+    "createdAt": "2026-11-22T09:54:04.859Z",
+    "updatedAt": "2026-11-22T09:54:04.859Z"
+  }
+]

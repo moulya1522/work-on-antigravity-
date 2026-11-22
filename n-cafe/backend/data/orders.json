@@ -1,0 +1,810 @@
+[
+  {
+    "orderNumber": "NC-1018",
+    "customer": {
+      "customerId": "fed1b2acfb8fd232af53bd54",
+      "name": "Karan Roy",
+      "phone": "+91 98888 77665",
+      "email": ""
+    },
+    "items": [
+      {
+        "menuItem": "b6a6313e562d1c0f10788de1",
+        "name": "Classic Velvet Cappuccino",
+        "price": 210,
+        "quantity": 1,
+        "subtotal": 210,
+        "notes": ""
+      },
+      {
+        "menuItem": "c334fddeb1f50a8132575e81",
+        "name": "Peri-Peri Crinkle Cut Fries",
+        "price": 210,
+        "quantity": 1,
+        "subtotal": 210,
+        "notes": ""
+      }
+    ],
+    "subtotal": 420,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 21,
+    "taxRate": 5,
+    "total": 441,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Preparing",
+    "notes": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "_id": "347b28c1c9674ca4ce607c66",
+    "createdAt": "2026-11-22T10:30:44.854Z",
+    "updatedAt": "2026-11-22T10:31:25.387Z",
+    "id": "347b28c1c9674ca4ce607c66"
+  },
+  {
+    "orderNumber": "NC-1018",
+    "customer": {
+      "customerId": "2704fe11cc011f9b29b27985",
+      "name": "Aditi Rao",
+      "phone": "+91 98999 11223",
+      "email": "aditi.rao@example.com"
+    },
+    "items": [
+      {
+        "name": "Classic Velvet Cappuccino",
+        "price": 210,
+        "quantity": 2,
+        "subtotal": 420,
+        "notes": ""
+      },
+      {
+        "name": "Warm Belgian Chocolate Brownie",
+        "price": 240,
+        "quantity": 1,
+        "subtotal": 240,
+        "notes": ""
+      }
+    ],
+    "subtotal": 660,
+    "discount": 20,
+    "discountType": "fixed",
+    "tax": 32,
+    "taxRate": 5,
+    "total": 672,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "notes": "",
+    "createdBy": "19b1b1a3b5dd1963a8f1b409",
+    "createdByName": "Priya Nair",
+    "_id": "fe007718f4d14ea33d06b46f",
+    "createdAt": "2026-11-22T10:16:12.956Z",
+    "updatedAt": "2026-11-22T10:16:25.744Z",
+    "id": "fe007718f4d14ea33d06b46f",
+    "completedAt": "2026-11-22T10:16:25.744Z"
+  },
+  {
+    "orderNumber": "NC-1017",
+    "customer": {
+      "customerId": "c2eed891f2a793d1fd02159a",
+      "name": "Sneha Patel",
+      "phone": "+91 98444 55667",
+      "email": "sneha.patel@creative.net"
+    },
+    "items": [
+      {
+        "menuItem": "314b5c6d43e6122bf53d1d0f",
+        "name": "N CAFÉ Royal Saffron Pistachio Latte",
+        "price": 340,
+        "quantity": 1,
+        "subtotal": 340,
+        "notes": ""
+      },
+      {
+        "menuItem": "e09c2bdcb4184d58a1620deb",
+        "name": "Classic Espresso Tiramisu",
+        "price": 280,
+        "quantity": 1,
+        "subtotal": 280,
+        "notes": ""
+      }
+    ],
+    "subtotal": 620,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 31,
+    "taxRate": 5,
+    "total": 651,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Pending",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-22T11:51:00.000Z",
+    "updatedAt": "2026-11-22T11:51:00.000Z",
+    "completedAt": null,
+    "_id": "40e105740142b41d1aad08b6"
+  },
+  {
+    "orderNumber": "NC-1016",
+    "customer": {
+      "customerId": null,
+      "name": "Walk-in Customer",
+      "phone": "+91 98000 00000",
+      "email": ""
+    },
+    "items": [
+      {
+        "menuItem": "cd80ec490010f067526f8b3f",
+        "name": "Artisan Masala Chai",
+        "price": 120,
+        "quantity": 2,
+        "subtotal": 240,
+        "notes": ""
+      },
+      {
+        "menuItem": "c334fddeb1f50a8132575e81",
+        "name": "Peri-Peri Crinkle Cut Fries",
+        "price": 210,
+        "quantity": 1,
+        "subtotal": 210,
+        "notes": ""
+      }
+    ],
+    "subtotal": 450,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 22.5,
+    "taxRate": 5,
+    "total": 472.5,
+    "paymentMethod": "Cash",
+    "paymentStatus": "Unpaid",
+    "status": "Preparing",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-22T10:38:00.000Z",
+    "updatedAt": "2026-11-22T10:38:00.000Z",
+    "completedAt": null,
+    "_id": "865f2f6bb5ba6f244f790cf9"
+  },
+  {
+    "orderNumber": "NC-1015",
+    "customer": {
+      "customerId": "a6fc8a40386c335ef3a5deda",
+      "name": "Ananya Sen",
+      "phone": "+91 98222 33445",
+      "email": "ananya.sen@designstudio.com"
+    },
+    "items": [
+      {
+        "menuItem": "f7eb16cd176f8b78fe7e883d",
+        "name": "Cold Brew Reserve (16 hrs)",
+        "price": 230,
+        "quantity": 1,
+        "subtotal": 230,
+        "notes": ""
+      },
+      {
+        "menuItem": "8b2e886bfee129cb896e67f9",
+        "name": "Smoked Chicken & Bacon Club",
+        "price": 290,
+        "quantity": 1,
+        "subtotal": 290,
+        "notes": ""
+      }
+    ],
+    "subtotal": 520,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 26,
+    "taxRate": 5,
+    "total": 546,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Ready",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-22T10:25:00.000Z",
+    "updatedAt": "2026-11-22T10:25:00.000Z",
+    "completedAt": null,
+    "_id": "91c067d8923ad9a2a1cfd744"
+  },
+  {
+    "orderNumber": "NC-1014",
+    "customer": {
+      "customerId": "c8d8618e5025b6cb8f8f5e2e",
+      "name": "Kabir Kapoor",
+      "phone": "+91 98555 66778",
+      "email": "kabir.k@startup.io"
+    },
+    "items": [
+      {
+        "menuItem": "b0ec37ed66b7a38c8d0852b6",
+        "name": "Caramel Macchiato",
+        "price": 260,
+        "quantity": 1,
+        "subtotal": 260,
+        "notes": ""
+      },
+      {
+        "menuItem": "98d8531b60a192b2672fa53e",
+        "name": "Warm Belgian Chocolate Brownie",
+        "price": 240,
+        "quantity": 1,
+        "subtotal": 240,
+        "notes": ""
+      }
+    ],
+    "subtotal": 500,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 25,
+    "taxRate": 5,
+    "total": 525,
+    "paymentMethod": "Card",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-22T09:12:00.000Z",
+    "updatedAt": "2026-11-22T09:12:00.000Z",
+    "completedAt": "2026-11-22T09:12:00.000Z",
+    "_id": "2645ccdeaf1e9de8d280f8b7"
+  },
+  {
+    "orderNumber": "NC-1013",
+    "customer": {
+      "customerId": "58dcfbcab72c834231bcfbbc",
+      "name": "Rohan Gupta",
+      "phone": "+91 98111 22334",
+      "email": "rohan.gupta@techcorp.in"
+    },
+    "items": [
+      {
+        "menuItem": "b6a6313e562d1c0f10788de1",
+        "name": "Classic Velvet Cappuccino",
+        "price": 210,
+        "quantity": 2,
+        "subtotal": 420,
+        "notes": ""
+      },
+      {
+        "menuItem": "b0013a902ec83c8f9059241d",
+        "name": "Grilled Paneer Tikka Panini",
+        "price": 240,
+        "quantity": 1,
+        "subtotal": 240,
+        "notes": ""
+      }
+    ],
+    "subtotal": 660,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 33,
+    "taxRate": 5,
+    "total": 693,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-22T07:59:00.000Z",
+    "updatedAt": "2026-11-22T07:59:00.000Z",
+    "completedAt": "2026-11-22T07:59:00.000Z",
+    "_id": "a0aa16f0341d067a7d1c9bd3"
+  },
+  {
+    "orderNumber": "NC-1012",
+    "customer": {
+      "customerId": "c2eed891f2a793d1fd02159a",
+      "name": "Sneha Patel",
+      "phone": "+91 98444 55667",
+      "email": "sneha.patel@creative.net"
+    },
+    "items": [
+      {
+        "menuItem": "b93a83d6ee24960a7d7d8c54",
+        "name": "Uji Matcha Green Tea Latte",
+        "price": 280,
+        "quantity": 2,
+        "subtotal": 560,
+        "notes": ""
+      },
+      {
+        "menuItem": "5cdef74e210902c8d9674b49",
+        "name": "Butter Croissant French Artisan",
+        "price": 160,
+        "quantity": 2,
+        "subtotal": 320,
+        "notes": ""
+      }
+    ],
+    "subtotal": 880,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 44,
+    "taxRate": 5,
+    "total": 924,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-21T06:46:00.000Z",
+    "updatedAt": "2026-11-21T06:46:00.000Z",
+    "completedAt": "2026-11-21T06:46:00.000Z",
+    "_id": "d9d2173f715fb849a9967e02"
+  },
+  {
+    "orderNumber": "NC-1011",
+    "customer": {
+      "customerId": "5f1b052952b9394bd8ca0bbf",
+      "name": "Vikram Malhotra",
+      "phone": "+91 98333 44556",
+      "email": "vikram.m@fintech.co"
+    },
+    "items": [
+      {
+        "menuItem": "b0013a902ec83c8f9059241d",
+        "name": "Grilled Paneer Tikka Panini",
+        "price": 240,
+        "quantity": 1,
+        "subtotal": 240,
+        "notes": ""
+      },
+      {
+        "menuItem": "b6a6313e562d1c0f10788de1",
+        "name": "Classic Velvet Cappuccino",
+        "price": 210,
+        "quantity": 1,
+        "subtotal": 210,
+        "notes": ""
+      },
+      {
+        "menuItem": "98d8531b60a192b2672fa53e",
+        "name": "Warm Belgian Chocolate Brownie",
+        "price": 240,
+        "quantity": 1,
+        "subtotal": 240,
+        "notes": ""
+      }
+    ],
+    "subtotal": 690,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 34.5,
+    "taxRate": 5,
+    "total": 724.5,
+    "paymentMethod": "Card",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-21T05:33:00.000Z",
+    "updatedAt": "2026-11-21T05:33:00.000Z",
+    "completedAt": "2026-11-21T05:33:00.000Z",
+    "_id": "2c897dd0ca6f88978c12b2d5"
+  },
+  {
+    "orderNumber": "NC-1010",
+    "customer": {
+      "customerId": "a6fc8a40386c335ef3a5deda",
+      "name": "Ananya Sen",
+      "phone": "+91 98222 33445",
+      "email": "ananya.sen@designstudio.com"
+    },
+    "items": [
+      {
+        "menuItem": "c4dfd92f1e4a9139323ae1d1",
+        "name": "Dark Chocolate Mocha Frappé",
+        "price": 290,
+        "quantity": 2,
+        "subtotal": 580,
+        "notes": ""
+      }
+    ],
+    "subtotal": 580,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 29,
+    "taxRate": 5,
+    "total": 609,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-20T05:20:00.000Z",
+    "updatedAt": "2026-11-20T05:20:00.000Z",
+    "completedAt": "2026-11-20T05:20:00.000Z",
+    "_id": "81c29b736983ee73ad080e8a"
+  },
+  {
+    "orderNumber": "NC-1009",
+    "customer": {
+      "customerId": null,
+      "name": "Walk-in Customer",
+      "phone": "+91 98000 00000",
+      "email": ""
+    },
+    "items": [
+      {
+        "menuItem": "b6a6313e562d1c0f10788de1",
+        "name": "Classic Velvet Cappuccino",
+        "price": 210,
+        "quantity": 3,
+        "subtotal": 630,
+        "notes": ""
+      },
+      {
+        "menuItem": "c334fddeb1f50a8132575e81",
+        "name": "Peri-Peri Crinkle Cut Fries",
+        "price": 210,
+        "quantity": 2,
+        "subtotal": 420,
+        "notes": ""
+      }
+    ],
+    "subtotal": 1050,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 52.5,
+    "taxRate": 5,
+    "total": 1102.5,
+    "paymentMethod": "Cash",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-20T14:07:00.000Z",
+    "updatedAt": "2026-11-20T14:07:00.000Z",
+    "completedAt": "2026-11-20T14:07:00.000Z",
+    "_id": "d982b253e9b0a681d1b749c3"
+  },
+  {
+    "orderNumber": "NC-1008",
+    "customer": {
+      "customerId": "58dcfbcab72c834231bcfbbc",
+      "name": "Rohan Gupta",
+      "phone": "+91 98111 22334",
+      "email": "rohan.gupta@techcorp.in"
+    },
+    "items": [
+      {
+        "menuItem": "314b5c6d43e6122bf53d1d0f",
+        "name": "N CAFÉ Royal Saffron Pistachio Latte",
+        "price": 340,
+        "quantity": 1,
+        "subtotal": 340,
+        "notes": ""
+      },
+      {
+        "menuItem": "e09c2bdcb4184d58a1620deb",
+        "name": "Classic Espresso Tiramisu",
+        "price": 280,
+        "quantity": 1,
+        "subtotal": 280,
+        "notes": ""
+      }
+    ],
+    "subtotal": 620,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 31,
+    "taxRate": 5,
+    "total": 651,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-19T12:54:00.000Z",
+    "updatedAt": "2026-11-19T12:54:00.000Z",
+    "completedAt": "2026-11-19T12:54:00.000Z",
+    "_id": "7b9741e980ea278a70afd917"
+  },
+  {
+    "orderNumber": "NC-1007",
+    "customer": {
+      "customerId": "c8d8618e5025b6cb8f8f5e2e",
+      "name": "Kabir Kapoor",
+      "phone": "+91 98555 66778",
+      "email": "kabir.k@startup.io"
+    },
+    "items": [
+      {
+        "menuItem": "f7eb16cd176f8b78fe7e883d",
+        "name": "Cold Brew Reserve (16 hrs)",
+        "price": 230,
+        "quantity": 2,
+        "subtotal": 460,
+        "notes": ""
+      },
+      {
+        "menuItem": "40a9386ef63fb47ff8bb3a9c",
+        "name": "Avocado & Sun-Dried Tomato Toast",
+        "price": 310,
+        "quantity": 1,
+        "subtotal": 310,
+        "notes": ""
+      }
+    ],
+    "subtotal": 770,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 38.5,
+    "taxRate": 5,
+    "total": 808.5,
+    "paymentMethod": "Card",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-19T11:41:00.000Z",
+    "updatedAt": "2026-11-19T11:41:00.000Z",
+    "completedAt": "2026-11-19T11:41:00.000Z",
+    "_id": "3ee555d8b155bb933e732163"
+  },
+  {
+    "orderNumber": "NC-1006",
+    "customer": {
+      "customerId": null,
+      "name": "Walk-in Customer",
+      "phone": "+91 98000 00000",
+      "email": ""
+    },
+    "items": [
+      {
+        "menuItem": "8b2e886bfee129cb896e67f9",
+        "name": "Smoked Chicken & Bacon Club",
+        "price": 290,
+        "quantity": 2,
+        "subtotal": 580,
+        "notes": ""
+      }
+    ],
+    "subtotal": 580,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 29,
+    "taxRate": 5,
+    "total": 609,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Refunded",
+    "status": "Cancelled",
+    "cancellationReason": "Customer had an urgent meeting",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-18T11:28:00.000Z",
+    "updatedAt": "2026-11-18T11:28:00.000Z",
+    "completedAt": null,
+    "_id": "71c13351949e3efb46223946"
+  },
+  {
+    "orderNumber": "NC-1005",
+    "customer": {
+      "customerId": "c2eed891f2a793d1fd02159a",
+      "name": "Sneha Patel",
+      "phone": "+91 98444 55667",
+      "email": "sneha.patel@creative.net"
+    },
+    "items": [
+      {
+        "menuItem": "b93a83d6ee24960a7d7d8c54",
+        "name": "Uji Matcha Green Tea Latte",
+        "price": 280,
+        "quantity": 1,
+        "subtotal": 280,
+        "notes": ""
+      },
+      {
+        "menuItem": "98d8531b60a192b2672fa53e",
+        "name": "Warm Belgian Chocolate Brownie",
+        "price": 240,
+        "quantity": 1,
+        "subtotal": 240,
+        "notes": ""
+      }
+    ],
+    "subtotal": 520,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 26,
+    "taxRate": 5,
+    "total": 546,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-18T10:15:00.000Z",
+    "updatedAt": "2026-11-18T10:15:00.000Z",
+    "completedAt": "2026-11-18T10:15:00.000Z",
+    "_id": "3f04840441e66f7198e23fcc"
+  },
+  {
+    "orderNumber": "NC-1004",
+    "customer": {
+      "customerId": null,
+      "name": "Walk-in Customer",
+      "phone": "+91 98000 00000",
+      "email": ""
+    },
+    "items": [
+      {
+        "menuItem": "c0441203ce960b56e733b1d3",
+        "name": "Signature Espresso Double",
+        "price": 140,
+        "quantity": 1,
+        "subtotal": 140,
+        "notes": ""
+      },
+      {
+        "menuItem": "c334fddeb1f50a8132575e81",
+        "name": "Peri-Peri Crinkle Cut Fries",
+        "price": 210,
+        "quantity": 1,
+        "subtotal": 210,
+        "notes": ""
+      }
+    ],
+    "subtotal": 350,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 17.5,
+    "taxRate": 5,
+    "total": 367.5,
+    "paymentMethod": "Cash",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-17T09:02:00.000Z",
+    "updatedAt": "2026-11-17T09:02:00.000Z",
+    "completedAt": "2026-11-17T09:02:00.000Z",
+    "_id": "4985a6c1fb692e4cc645b2e9"
+  },
+  {
+    "orderNumber": "NC-1003",
+    "customer": {
+      "customerId": "5f1b052952b9394bd8ca0bbf",
+      "name": "Vikram Malhotra",
+      "phone": "+91 98333 44556",
+      "email": "vikram.m@fintech.co"
+    },
+    "items": [
+      {
+        "menuItem": "b0013a902ec83c8f9059241d",
+        "name": "Grilled Paneer Tikka Panini",
+        "price": 240,
+        "quantity": 2,
+        "subtotal": 480,
+        "notes": ""
+      },
+      {
+        "menuItem": "cd80ec490010f067526f8b3f",
+        "name": "Artisan Masala Chai",
+        "price": 120,
+        "quantity": 2,
+        "subtotal": 240,
+        "notes": ""
+      }
+    ],
+    "subtotal": 720,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 36,
+    "taxRate": 5,
+    "total": 756,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-17T07:49:00.000Z",
+    "updatedAt": "2026-11-17T07:49:00.000Z",
+    "completedAt": "2026-11-17T07:49:00.000Z",
+    "_id": "d763cc6fbdad23c494b9f5fc"
+  },
+  {
+    "orderNumber": "NC-1002",
+    "customer": {
+      "customerId": "a6fc8a40386c335ef3a5deda",
+      "name": "Ananya Sen",
+      "phone": "+91 98222 33445",
+      "email": "ananya.sen@designstudio.com"
+    },
+    "items": [
+      {
+        "menuItem": "b0ec37ed66b7a38c8d0852b6",
+        "name": "Caramel Macchiato",
+        "price": 260,
+        "quantity": 1,
+        "subtotal": 260,
+        "notes": ""
+      },
+      {
+        "menuItem": "e09c2bdcb4184d58a1620deb",
+        "name": "Classic Espresso Tiramisu",
+        "price": 280,
+        "quantity": 1,
+        "subtotal": 280,
+        "notes": ""
+      }
+    ],
+    "subtotal": 540,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 27,
+    "taxRate": 5,
+    "total": 567,
+    "paymentMethod": "Card",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-16T06:36:00.000Z",
+    "updatedAt": "2026-11-16T06:36:00.000Z",
+    "completedAt": "2026-11-16T06:36:00.000Z",
+    "_id": "cba5bdaa68198fd288b59056"
+  },
+  {
+    "orderNumber": "NC-1001",
+    "customer": {
+      "customerId": "58dcfbcab72c834231bcfbbc",
+      "name": "Rohan Gupta",
+      "phone": "+91 98111 22334",
+      "email": "rohan.gupta@techcorp.in"
+    },
+    "items": [
+      {
+        "menuItem": "b6a6313e562d1c0f10788de1",
+        "name": "Classic Velvet Cappuccino",
+        "price": 210,
+        "quantity": 2,
+        "subtotal": 420,
+        "notes": ""
+      },
+      {
+        "menuItem": "5cdef74e210902c8d9674b49",
+        "name": "Butter Croissant French Artisan",
+        "price": 160,
+        "quantity": 1,
+        "subtotal": 160,
+        "notes": ""
+      }
+    ],
+    "subtotal": 580,
+    "discount": 0,
+    "discountType": "fixed",
+    "tax": 29,
+    "taxRate": 5,
+    "total": 609,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "status": "Completed",
+    "cancellationReason": "",
+    "createdBy": "da0ed6b5d5d9e0681da2fa24",
+    "createdByName": "Arjun Sharma",
+    "createdAt": "2026-11-16T06:23:00.000Z",
+    "updatedAt": "2026-11-16T06:23:00.000Z",
+    "completedAt": "2026-11-16T06:23:00.000Z",
+    "_id": "430e353954326d314aceacbb"
+  }
+]

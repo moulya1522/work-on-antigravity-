@@ -1,0 +1,16 @@
+[
+  {
+    "cafeName": "N CAFÉ",
+    "tagline": "Artisan Brews & Gourmet Moments",
+    "address": "Plot 42, 100ft Road, Indiranagar, Bengaluru, Karnataka 560038",
+    "phone": "+91 98765 43210",
+    "email": "contact@ncafe.in",
+    "currency": "INR",
+    "currencySymbol": "₹",
+    "taxRate": 5,
+    "orderPrefix": "NC-",
+    "_id": "9fc484e2bb30a72a3b90003e",
+    "createdAt": "2026-11-22T09:54:04.567Z",
+    "updatedAt": "2026-11-22T09:54:04.567Z"
+  }
+]

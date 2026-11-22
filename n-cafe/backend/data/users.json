@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Rahul Verma",
+    "email": "cashier@ncafe.com",
+    "password": "$2a$10$.TKCxNwIGSXqCHEWmXo.a.gr7QIINnexDH4jbSh/xih101pKW9j9K",
+    "role": "staff",
+    "jobRole": "Cashier & Front Desk",
+    "phone": "+91 98765 00003",
+    "status": "active",
+    "_id": "73247adc6d88b76c0103e63f",
+    "createdAt": "2026-11-22T09:54:04.773Z",
+    "updatedAt": "2026-11-22T09:54:04.773Z"
+  },
+  {
+    "name": "Priya Nair",
+    "email": "staff@ncafe.com",
+    "password": "$2a$10$nzW/OnkHFAxVhfoxAMVd0OHUftHMyyz1aV4hrXzFgJ8RC5m9VGtfe",
+    "role": "staff",
+    "jobRole": "Head Barista",
+    "phone": "+91 98765 00002",
+    "status": "active",
+    "_id": "19b1b1a3b5dd1963a8f1b409",
+    "createdAt": "2026-11-22T09:54:04.686Z",
+    "updatedAt": "2026-11-22T09:54:04.686Z"
+  },
+  {
+    "name": "Arjun Sharma",
+    "email": "admin@ncafe.com",
+    "password": "$2a$10$pmPabZRmJxlsCKcbPfn0WO4sq.X.wr7hZNKfME/muFEmvcAdlyizq",
+    "role": "admin",
+    "jobRole": "Café General Manager",
+    "phone": "+91 98765 00001",
+    "status": "active",
+    "_id": "da0ed6b5d5d9e0681da2fa24",
+    "createdAt": "2026-11-22T09:54:04.568Z",
+    "updatedAt": "2026-11-22T09:54:04.568Z"
+  }
+]

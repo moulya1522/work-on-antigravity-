@@ -1,0 +1,200 @@
+[
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Order #NC-1018 status changed to Preparing",
+    "category": "order",
+    "details": {
+      "orderId": "347b28c1c9674ca4ce607c66",
+      "status": "Preparing"
+    },
+    "_id": "106d615d649c694cf0c36b08",
+    "createdAt": "2026-11-22T10:31:25.388Z",
+    "updatedAt": "2026-11-22T10:31:25.388Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Created Order #NC-1018 (₹441)",
+    "category": "order",
+    "details": {
+      "orderId": "347b28c1c9674ca4ce607c66",
+      "orderNumber": "NC-1018",
+      "total": 441
+    },
+    "_id": "3f7152706c37df3ad284cb03",
+    "createdAt": "2026-11-22T10:30:44.855Z",
+    "updatedAt": "2026-11-22T10:30:44.855Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Arjun Sharma logged in (admin)",
+    "category": "auth",
+    "details": {},
+    "_id": "afe82c02b4d411cc1c0d5c0e",
+    "createdAt": "2026-11-22T10:29:33.338Z",
+    "updatedAt": "2026-11-22T10:29:33.338Z"
+  },
+  {
+    "user": "19b1b1a3b5dd1963a8f1b409",
+    "userName": "Priya Nair",
+    "action": "Order #NC-1018 status changed to Completed",
+    "category": "order",
+    "details": {
+      "orderId": "fe007718f4d14ea33d06b46f",
+      "status": "Completed"
+    },
+    "_id": "af529d4353831ec7fd679203",
+    "createdAt": "2026-11-22T10:16:25.745Z",
+    "updatedAt": "2026-11-22T10:16:25.745Z"
+  },
+  {
+    "user": "19b1b1a3b5dd1963a8f1b409",
+    "userName": "Priya Nair",
+    "action": "Priya Nair logged in (staff)",
+    "category": "auth",
+    "details": {},
+    "_id": "ea86172891cab3879f4813c8",
+    "createdAt": "2026-11-22T10:16:25.734Z",
+    "updatedAt": "2026-11-22T10:16:25.734Z"
+  },
+  {
+    "user": "19b1b1a3b5dd1963a8f1b409",
+    "userName": "Priya Nair",
+    "action": "Created Order #NC-1018 (₹672)",
+    "category": "order",
+    "details": {
+      "orderId": "fe007718f4d14ea33d06b46f",
+      "orderNumber": "NC-1018",
+      "total": 672
+    },
+    "_id": "ecbe444ac611322fb8f23524",
+    "createdAt": "2026-11-22T10:16:12.956Z",
+    "updatedAt": "2026-11-22T10:16:12.956Z"
+  },
+  {
+    "user": "19b1b1a3b5dd1963a8f1b409",
+    "userName": "Priya Nair",
+    "action": "Priya Nair logged in (staff)",
+    "category": "auth",
+    "details": {},
+    "_id": "d73581e929437fdd5b59254a",
+    "createdAt": "2026-11-22T10:16:12.936Z",
+    "updatedAt": "2026-11-22T10:16:12.936Z"
+  },
+  {
+    "user": "19b1b1a3b5dd1963a8f1b409",
+    "userName": "Priya Nair",
+    "action": "Priya Nair logged in (staff)",
+    "category": "auth",
+    "details": {},
+    "_id": "ce426c94090ec82626af1bc3",
+    "createdAt": "2026-11-22T10:14:56.189Z",
+    "updatedAt": "2026-11-22T10:14:56.189Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Arjun Sharma logged in (admin)",
+    "category": "auth",
+    "details": {},
+    "_id": "16a323275074475fd4086325",
+    "createdAt": "2026-11-22T10:13:08.092Z",
+    "updatedAt": "2026-11-22T10:13:08.092Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Arjun Sharma logged in (admin)",
+    "category": "auth",
+    "details": {},
+    "_id": "26ca71fd6c17d72de9152547",
+    "createdAt": "2026-11-22T10:12:55.786Z",
+    "updatedAt": "2026-11-22T10:12:55.786Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Arjun Sharma logged in (admin)",
+    "category": "auth",
+    "details": {},
+    "_id": "0d097fe2abd0b7179fc6a672",
+    "createdAt": "2026-11-22T10:08:51.659Z",
+    "updatedAt": "2026-11-22T10:08:51.659Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Arjun Sharma logged in (admin)",
+    "category": "auth",
+    "details": {},
+    "_id": "e34323444504fe0005738346",
+    "createdAt": "2026-11-22T10:07:11.359Z",
+    "updatedAt": "2026-11-22T10:07:11.359Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Arjun Sharma logged in (admin)",
+    "category": "auth",
+    "details": {},
+    "_id": "e69e9c5ee762b363a6782f4f",
+    "createdAt": "2026-11-22T10:03:40.824Z",
+    "updatedAt": "2026-11-22T10:03:40.824Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Arjun Sharma logged in (admin)",
+    "category": "auth",
+    "_id": "0738e30beb3131ff48b0cb49",
+    "createdAt": "2026-11-22T09:54:04.890Z",
+    "updatedAt": "2026-11-22T09:54:04.890Z"
+  },
+  {
+    "user": "19b1b1a3b5dd1963a8f1b409",
+    "userName": "Priya Nair",
+    "action": "Order #NC-1015 status changed to Ready",
+    "category": "order",
+    "_id": "19f4a3859111c1c513f31736",
+    "createdAt": "2026-11-22T09:54:04.890Z",
+    "updatedAt": "2026-11-22T09:54:04.890Z"
+  },
+  {
+    "user": "73247adc6d88b76c0103e63f",
+    "userName": "Rahul Verma",
+    "action": "Created Order #NC-1014 (₹693)",
+    "category": "order",
+    "_id": "6aa93c31b166d9066a5edd63",
+    "createdAt": "2026-11-22T09:54:04.890Z",
+    "updatedAt": "2026-11-22T09:54:04.890Z"
+  },
+  {
+    "user": "19b1b1a3b5dd1963a8f1b409",
+    "userName": "Priya Nair",
+    "action": "Restocked Arabica Single-Origin Beans (10 kg)",
+    "category": "inventory",
+    "_id": "27c030cb2ab088b558eb40ab",
+    "createdAt": "2026-11-22T09:54:04.889Z",
+    "updatedAt": "2026-11-22T09:54:04.889Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Updated menu item: N CAFÉ Royal Saffron Pistachio Latte",
+    "category": "menu",
+    "_id": "e27d64ae19ed914857b15274",
+    "createdAt": "2026-11-22T09:54:04.888Z",
+    "updatedAt": "2026-11-22T09:54:04.888Z"
+  },
+  {
+    "user": "da0ed6b5d5d9e0681da2fa24",
+    "userName": "Arjun Sharma",
+    "action": "Initial café database seeded and configured",
+    "category": "settings",
+    "_id": "c7d7e5b8eaca926f5fb8aee5",
+    "createdAt": "2026-11-22T09:54:04.888Z",
+    "updatedAt": "2026-11-22T09:54:04.888Z"
+  }
+]
