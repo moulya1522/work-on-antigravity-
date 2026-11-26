@@ -1,0 +1,61 @@
+:root {
+  /* Core Dark Theme Palette */
+  --bg-primary: #090d18;
+  --bg-secondary: #0f172a;
+  --bg-card: #141c2d;
+  --bg-card-hover: #182237;
+  --bg-elevated: #1b263d;
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --accent-cyan: #38bdf8;
+  --highlight-purple: #a78bfa;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --border-subtle: rgba(148, 163, 184, 0.16);
+  --border-strong: rgba(56, 189, 248, 0.35);
+
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #38bdf8;
+
+  --shadow-sm: 0 4px 16px rgba(2, 6, 23, 0.35);
+  --shadow-md: 0 12px 32px rgba(2, 6, 23, 0.5);
+  --shadow-glow: 0 0 32px rgba(37, 99, 235, 0.18);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  --font-heading: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --header-height: 70px;
+  --container-max: 1200px;
+  --transition-fast: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme='light'] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #eef2ff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-elevated: #f8fafc;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --border-strong: rgba(37, 99, 235, 0.4);
+
+  --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.1);
+  --shadow-glow: 0 0 28px rgba(37, 99, 235, 0.12);
+}
