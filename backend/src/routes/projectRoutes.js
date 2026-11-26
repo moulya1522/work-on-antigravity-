@@ -2,8 +2,19 @@ import express from 'express';
 import slugify from 'slugify';
 import Project from '../models/Project.js';
 import { requireAdmin } from '../middleware/auth.js';
-import { uploadImageMiddleware, uploadPdfMiddleware } from '../middleware/upload.js';
-import { deleteFromCloudinary, uploadBufferToCloudinary } from '../config/cloudinary.js';
+import {
+  sanitizeFilename,
+  uploadImageMiddleware,
+  uploadPdfMiddleware,
+  uploadRateLimiter,
+  validateUploadedImages,
+  validateUploadedPdfs,
+} from '../middleware/upload.js';
+import {
+  deleteFromCloudinary,
+  rollbackCloudinaryAssets,
+  uploadBufferToCloudinary,
+} from '../config/cloudinary.js';
 import { generateUniqueSlug } from '../utils/slug.js';
 import {
   normalizeOptionalHttpUrl,
@@ -202,7 +213,7 @@ router.get('/:slug/documents/:docId/file', async (req, res, next) => {
       return res.status(404).json({ message: 'Project not found.' });
     }
     const doc = project.documents.id(req.params.docId);
-    if (!doc) {
+    if (!doc || !doc.url || !doc.url.startsWith('https://')) {
       return res.status(404).json({ message: 'Document not found.' });
     }
 
@@ -212,12 +223,13 @@ router.get('/:slug/documents/:docId/file', async (req, res, next) => {
     }
 
     const isDownload = req.query.download === '1' || req.query.download === 'true';
-    const safeFilename = (doc.originalFilename || `${doc.title || 'document'}.pdf`).replace(
-      /["\r\n]/g,
-      '_'
+    const safeFilename = sanitizeFilename(
+      doc.originalFilename || `${doc.title || 'document'}.pdf`,
+      '.pdf'
     );
 
     res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader(
       'Content-Disposition',
       `${isDownload ? 'attachment' : 'inline'}; filename="${safeFilename}"`
@@ -292,23 +304,24 @@ router.delete('/:id', requireAdmin, async (req, res, next) => {
       return res.status(404).json({ message: 'Project not found.' });
     }
 
-    const deletions = [];
+    const assetsToDelete = [];
     if (project.thumbnail?.publicId) {
-      deletions.push(deleteFromCloudinary(project.thumbnail.publicId, 'image'));
+      assetsToDelete.push({ publicId: project.thumbnail.publicId, resourceType: 'image' });
     }
     for (const shot of project.screenshots || []) {
       if (shot.publicId) {
-        deletions.push(deleteFromCloudinary(shot.publicId, 'image'));
+        assetsToDelete.push({ publicId: shot.publicId, resourceType: shot.resourceType || 'image' });
       }
     }
     for (const doc of project.documents || []) {
       if (doc.publicId) {
-        deletions.push(deleteFromCloudinary(doc.publicId, doc.resourceType || 'raw'));
+        assetsToDelete.push({ publicId: doc.publicId, resourceType: doc.resourceType || 'raw' });
       }
     }
 
-    await Promise.allSettled(deletions);
+    // Remove DB record first so a DB error never leaves a half-deleted project with broken links
     await project.deleteOne();
+    await rollbackCloudinaryAssets(assetsToDelete);
 
     return res.json({ message: 'Project and associated files deleted successfully.' });
   } catch (err) {
@@ -320,8 +333,11 @@ router.delete('/:id', requireAdmin, async (req, res, next) => {
 router.post(
   '/:id/thumbnail',
   requireAdmin,
+  uploadRateLimiter,
   uploadImageMiddleware.single('thumbnail'),
+  validateUploadedImages,
   async (req, res, next) => {
+    let uploaded = null;
     try {
       if (!req.file) {
         return res.status(400).json({ message: 'Please select a thumbnail image to upload.' });
@@ -331,23 +347,32 @@ router.post(
         return res.status(404).json({ message: 'Project not found.' });
       }
 
-      const uploaded = await uploadBufferToCloudinary(req.file.buffer, {
+      const previousPublicId = project.thumbnail?.publicId;
+
+      uploaded = await uploadBufferToCloudinary(req.file.buffer, {
         folder: `project-vault/projects/${project._id}/thumbnail`,
         resourceType: 'image',
+        originalFilename: req.file.safeOriginalName,
+        formatHint: req.file.detectedFormat,
       });
-
-      if (project.thumbnail?.publicId) {
-        await deleteFromCloudinary(project.thumbnail.publicId, 'image');
-      }
 
       project.thumbnail = {
         url: uploaded.url,
         publicId: uploaded.publicId,
+        format: uploaded.format,
+        bytes: uploaded.bytes,
+        originalFilename: req.file.safeOriginalName,
       };
       await project.save();
 
+      // Only delete previous thumbnail after DB save succeeds
+      if (previousPublicId && previousPublicId !== uploaded.publicId) {
+        await deleteFromCloudinary(previousPublicId, 'image');
+      }
+
       return res.json({ project, message: 'Thumbnail uploaded successfully.' });
     } catch (err) {
+      await rollbackCloudinaryAssets([uploaded]);
       return next(err);
     }
   }
@@ -361,12 +386,13 @@ router.delete('/:id/thumbnail', requireAdmin, async (req, res, next) => {
       return res.status(404).json({ message: 'Project not found.' });
     }
 
-    if (project.thumbnail?.publicId) {
-      await deleteFromCloudinary(project.thumbnail.publicId, 'image');
-    }
-
-    project.thumbnail = { url: '', publicId: '' };
+    const previousPublicId = project.thumbnail?.publicId;
+    project.thumbnail = { url: '', publicId: '', format: '', bytes: 0, originalFilename: '' };
     await project.save();
+
+    if (previousPublicId) {
+      await deleteFromCloudinary(previousPublicId, 'image');
+    }
 
     return res.json({ project, message: 'Thumbnail removed.' });
   } catch (err) {
@@ -378,8 +404,11 @@ router.delete('/:id/thumbnail', requireAdmin, async (req, res, next) => {
 router.post(
   '/:id/screenshots',
   requireAdmin,
+  uploadRateLimiter,
   uploadImageMiddleware.array('screenshots', 10),
+  validateUploadedImages,
   async (req, res, next) => {
+    const newlyUploaded = [];
     try {
       const files = req.files || [];
       if (files.length === 0) {
@@ -405,11 +434,19 @@ router.post(
         const uploaded = await uploadBufferToCloudinary(file.buffer, {
           folder: `project-vault/projects/${project._id}/screenshots`,
           resourceType: 'image',
+          originalFilename: file.safeOriginalName,
+          formatHint: file.detectedFormat,
         });
+        newlyUploaded.push(uploaded);
+
         project.screenshots.push({
           url: uploaded.url,
           publicId: uploaded.publicId,
-          caption: String(captions[i] || '').trim(),
+          resourceType: uploaded.resourceType || 'image',
+          format: uploaded.format,
+          bytes: uploaded.bytes,
+          originalFilename: file.safeOriginalName,
+          caption: String(captions[i] || '').trim().slice(0, 200),
           uploadedAt: new Date(),
         });
       }
@@ -417,6 +454,7 @@ router.post(
       await project.save();
       return res.json({ project, message: 'Screenshots uploaded successfully.' });
     } catch (err) {
+      await rollbackCloudinaryAssets(newlyUploaded);
       return next(err);
     }
   }
@@ -435,12 +473,15 @@ router.delete('/:id/screenshots/:screenshotId', requireAdmin, async (req, res, n
       return res.status(404).json({ message: 'Screenshot not found.' });
     }
 
-    if (screenshot.publicId) {
-      await deleteFromCloudinary(screenshot.publicId, 'image');
-    }
+    const previousPublicId = screenshot.publicId;
+    const previousResourceType = screenshot.resourceType || 'image';
 
     screenshot.deleteOne();
     await project.save();
+
+    if (previousPublicId) {
+      await deleteFromCloudinary(previousPublicId, previousResourceType);
+    }
 
     return res.json({ project, message: 'Screenshot deleted.' });
   } catch (err) {
@@ -452,8 +493,11 @@ router.delete('/:id/screenshots/:screenshotId', requireAdmin, async (req, res, n
 router.post(
   '/:id/documents',
   requireAdmin,
+  uploadRateLimiter,
   uploadPdfMiddleware.array('documents', 10),
+  validateUploadedPdfs,
   async (req, res, next) => {
+    const newlyUploaded = [];
     try {
       const files = req.files || [];
       if (files.length === 0) {
@@ -481,18 +525,21 @@ router.post(
         const uploaded = await uploadBufferToCloudinary(file.buffer, {
           folder: `project-vault/projects/${project._id}/documents`,
           resourceType: 'raw',
-          originalFilename: file.originalname,
+          originalFilename: file.safeOriginalName,
+          formatHint: 'pdf',
         });
+        newlyUploaded.push(uploaded);
 
-        const fallbackTitle = file.originalname.replace(/\.pdf$/i, '');
-        const customTitle = String(titles[i] || '').trim() || fallbackTitle;
+        const fallbackTitle = file.safeOriginalName.replace(/\.pdf$/i, '');
+        const customTitle = (String(titles[i] || '').trim() || fallbackTitle).slice(0, 150);
 
         project.documents.push({
           title: customTitle,
-          originalFilename: file.originalname,
+          originalFilename: file.safeOriginalName,
           url: uploaded.url,
           publicId: uploaded.publicId,
           resourceType: uploaded.resourceType || 'raw',
+          format: uploaded.format || 'pdf',
           bytes: uploaded.bytes || file.size,
           uploadedAt: new Date(),
         });
@@ -501,6 +548,7 @@ router.post(
       await project.save();
       return res.json({ project, message: 'Document(s) uploaded successfully.' });
     } catch (err) {
+      await rollbackCloudinaryAssets(newlyUploaded);
       return next(err);
     }
   }
@@ -510,8 +558,11 @@ router.post(
 router.put(
   '/:id/documents/:docId',
   requireAdmin,
+  uploadRateLimiter,
   uploadPdfMiddleware.single('document'),
+  validateUploadedPdfs,
   async (req, res, next) => {
+    let newlyUploaded = null;
     try {
       const project = await Project.findById(req.params.id);
       if (!project) {
@@ -528,31 +579,42 @@ router.put(
         if (!trimmedTitle) {
           return res.status(400).json({ message: 'Document title cannot be empty.' });
         }
-        doc.title = trimmedTitle;
+        doc.title = trimmedTitle.slice(0, 150);
       }
 
+      let previousPublicId = '';
+      let previousResourceType = 'raw';
+
       if (req.file) {
-        const uploaded = await uploadBufferToCloudinary(req.file.buffer, {
+        previousPublicId = doc.publicId;
+        previousResourceType = doc.resourceType || 'raw';
+
+        newlyUploaded = await uploadBufferToCloudinary(req.file.buffer, {
           folder: `project-vault/projects/${project._id}/documents`,
           resourceType: 'raw',
-          originalFilename: req.file.originalname,
+          originalFilename: req.file.safeOriginalName,
+          formatHint: 'pdf',
         });
 
-        if (doc.publicId) {
-          await deleteFromCloudinary(doc.publicId, doc.resourceType || 'raw');
-        }
-
-        doc.originalFilename = req.file.originalname;
-        doc.url = uploaded.url;
-        doc.publicId = uploaded.publicId;
-        doc.resourceType = uploaded.resourceType || 'raw';
-        doc.bytes = uploaded.bytes || req.file.size;
+        doc.originalFilename = req.file.safeOriginalName;
+        doc.url = newlyUploaded.url;
+        doc.publicId = newlyUploaded.publicId;
+        doc.resourceType = newlyUploaded.resourceType || 'raw';
+        doc.format = newlyUploaded.format || 'pdf';
+        doc.bytes = newlyUploaded.bytes || req.file.size;
         doc.uploadedAt = new Date();
       }
 
       await project.save();
+
+      // Remove old Cloudinary asset only after DB save succeeds
+      if (previousPublicId && previousPublicId !== newlyUploaded?.publicId) {
+        await deleteFromCloudinary(previousPublicId, previousResourceType);
+      }
+
       return res.json({ project, message: 'Document updated successfully.' });
     } catch (err) {
+      await rollbackCloudinaryAssets([newlyUploaded]);
       return next(err);
     }
   }
@@ -571,12 +633,15 @@ router.delete('/:id/documents/:docId', requireAdmin, async (req, res, next) => {
       return res.status(404).json({ message: 'Document not found.' });
     }
 
-    if (doc.publicId) {
-      await deleteFromCloudinary(doc.publicId, doc.resourceType || 'raw');
-    }
+    const previousPublicId = doc.publicId;
+    const previousResourceType = doc.resourceType || 'raw';
 
     doc.deleteOne();
     await project.save();
+
+    if (previousPublicId) {
+      await deleteFromCloudinary(previousPublicId, previousResourceType);
+    }
 
     return res.json({ project, message: 'Document deleted successfully.' });
   } catch (err) {

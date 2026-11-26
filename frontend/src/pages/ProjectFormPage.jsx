@@ -546,7 +546,7 @@ export default function ProjectFormPage() {
         <section className="surface-card">
           <h2 style={{ fontSize: '1.2rem', marginBottom: 6 }}>Project Thumbnail</h2>
           <p className="form-help" style={{ marginBottom: 14 }}>
-            Displayed on the project card and details page overview (JPG, PNG, WebP, GIF up to 5 MB).
+            Displayed on the project card and details page overview (JPG, JPEG, PNG, WebP up to 5 MB).
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
@@ -574,7 +574,7 @@ export default function ProjectFormPage() {
                     : 'Upload Thumbnail'}
                 <input
                   type="file"
-                  accept="image/png,image/jpeg,image/webp,image/gif"
+                  accept="image/png,image/jpeg,image/webp"
                   style={{ display: 'none' }}
                   disabled={mediaBusy}
                   onChange={handleUploadThumbnail}
@@ -608,7 +608,7 @@ export default function ProjectFormPage() {
               {mediaBusy ? 'Uploading...' : 'Add Screenshots'}
               <input
                 type="file"
-                accept="image/png,image/jpeg,image/webp,image/gif"
+                accept="image/png,image/jpeg,image/webp"
                 multiple
                 style={{ display: 'none' }}
                 disabled={mediaBusy}

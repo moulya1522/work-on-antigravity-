@@ -11,6 +11,9 @@ export function errorHandler(err, _req, res, _next) {
     if (err.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({ message: 'Uploaded file exceeds the maximum allowed size.' });
     }
+    if (err.code === 'LIMIT_FILE_COUNT') {
+      return res.status(400).json({ message: 'Too many files selected in a single upload.' });
+    }
     return res.status(400).json({ message: err.message });
   }
 
@@ -34,7 +37,7 @@ export function errorHandler(err, _req, res, _next) {
       : err?.message || 'An unexpected server error occurred.';
 
   if (statusCode >= 500) {
-    console.error(err);
+    console.error(`[Server Error ${statusCode}]:`, err?.message || 'Unknown error');
   }
 
   return res.status(statusCode).json({ message });

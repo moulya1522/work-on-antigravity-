@@ -120,7 +120,7 @@ export default function ProfileManager({ profile, onProfileUpdated }) {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/png,image/jpeg,image/webp,image/gif"
+              accept="image/png,image/jpeg,image/webp"
               style={{ display: 'none' }}
               onChange={handlePhotoChange}
             />

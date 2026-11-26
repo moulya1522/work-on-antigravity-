@@ -6,6 +6,10 @@ const mediaSchema = new mongoose.Schema(
   {
     url: { type: String, required: true, trim: true },
     publicId: { type: String, default: '', trim: true },
+    resourceType: { type: String, default: 'image', trim: true },
+    format: { type: String, default: '', trim: true },
+    bytes: { type: Number, default: 0 },
+    originalFilename: { type: String, default: '', trim: true },
     caption: { type: String, default: '', trim: true, maxlength: 200 },
     uploadedAt: { type: Date, default: Date.now },
   },
@@ -19,6 +23,7 @@ const documentSchema = new mongoose.Schema(
     url: { type: String, required: true, trim: true },
     publicId: { type: String, default: '', trim: true },
     resourceType: { type: String, default: 'raw', trim: true },
+    format: { type: String, default: 'pdf', trim: true },
     bytes: { type: Number, default: 0 },
     uploadedAt: { type: Date, default: Date.now },
   },
@@ -103,6 +108,9 @@ const projectSchema = new mongoose.Schema(
     thumbnail: {
       url: { type: String, trim: true, default: '' },
       publicId: { type: String, trim: true, default: '' },
+      format: { type: String, trim: true, default: '' },
+      bytes: { type: Number, default: 0 },
+      originalFilename: { type: String, trim: true, default: '' },
     },
     screenshots: {
       type: [mediaSchema],

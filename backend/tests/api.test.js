@@ -10,10 +10,27 @@ vi.mock('../src/config/cloudinary.js', () => ({
     url: `https://res.cloudinary.com/demo/${opts.resourceType === 'raw' ? 'raw' : 'image'}/upload/mock_${Date.now()}`,
     publicId: `mock_public_id_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
     resourceType: opts.resourceType || 'image',
+    format: opts.formatHint || (opts.resourceType === 'raw' ? 'pdf' : 'png'),
     bytes: buffer.length,
   })),
   deleteFromCloudinary: vi.fn(async () => {}),
+  rollbackCloudinaryAssets: vi.fn(async () => {}),
 }));
+
+const VALID_PNG_BYTES = Buffer.concat([
+  Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+  Buffer.from('0000IHDRmockdata'),
+]);
+const VALID_JPG_BYTES = Buffer.concat([
+  Buffer.from([0xff, 0xd8, 0xff, 0xe0]),
+  Buffer.from('0010JFIFmockdata'),
+]);
+const VALID_WEBP_BYTES = Buffer.concat([
+  Buffer.from('RIFF'),
+  Buffer.from([0x24, 0x00, 0x00, 0x00]),
+  Buffer.from('WEBP'),
+  Buffer.from('VP8 mockdata'),
+]);
 
 import { createApp } from '../src/app.js';
 import { bootstrapDatabase } from '../src/utils/bootstrap.js';
@@ -246,56 +263,120 @@ describe('PROJECT VAULT Backend API', () => {
     expect(missingRes.status).toBe(404);
   });
 
-  it('handles thumbnail, screenshots, multiple PDFs, replacement, deletion, and profile updates', async () => {
+  it('handles thumbnail, screenshots, multiple PDFs, preview/download, replace, delete, and security rejections', async () => {
     const createRes = await request(app)
       .post('/api/projects')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ name: 'Doc Vault Test' });
     const projectId = createRes.body.project._id;
+    const slug = createRes.body.project.slug;
 
-    // Upload thumbnail
+    // Unauthorized upload & delete rejections
+    const unauthUpload = await request(app)
+      .post(`/api/projects/${projectId}/thumbnail`)
+      .attach('thumbnail', VALID_PNG_BYTES, { filename: 'thumb.png', contentType: 'image/png' });
+    expect(unauthUpload.status).toBe(401);
+
+    const unauthDelete = await request(app).delete(`/api/projects/${projectId}/thumbnail`);
+    expect(unauthDelete.status).toBe(401);
+
+    // Reject spoofed image (HTML masquerading as PNG)
+    const spoofedImg = await request(app)
+      .post(`/api/projects/${projectId}/thumbnail`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('thumbnail', Buffer.from('<script>alert(1)</script>'), {
+        filename: 'evil.png',
+        contentType: 'image/png',
+      });
+    expect(spoofedImg.status).toBe(400);
+
+    // Reject unsupported GIF extension
+    const gifImg = await request(app)
+      .post(`/api/projects/${projectId}/thumbnail`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('thumbnail', Buffer.from('GIF89a1234567890'), {
+        filename: 'anim.gif',
+        contentType: 'image/gif',
+      });
+    expect(gifImg.status).toBe(400);
+
+    // Reject oversized image (> 5 MB)
+    const oversizedImg = await request(app)
+      .post(`/api/projects/${projectId}/thumbnail`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('thumbnail', Buffer.concat([VALID_PNG_BYTES, Buffer.alloc(5 * 1024 * 1024 + 100)]), {
+        filename: 'huge.png',
+        contentType: 'image/png',
+      });
+    expect(oversizedImg.status).toBe(400);
+
+    // Upload valid PNG thumbnail
     const thumbRes = await request(app)
       .post(`/api/projects/${projectId}/thumbnail`)
       .set('Authorization', `Bearer ${adminToken}`)
-      .attach('thumbnail', Buffer.from('fake-png-bytes'), {
+      .attach('thumbnail', VALID_PNG_BYTES, {
         filename: 'thumb.png',
         contentType: 'image/png',
       });
     expect(thumbRes.status).toBe(200);
     expect(thumbRes.body.project.thumbnail.url).toContain('https://res.cloudinary.com');
+    expect(thumbRes.body.project.thumbnail.format).toBe('png');
 
-    // Upload screenshots
+    // Upload multiple valid screenshots (PNG, JPG, WEBP)
     const shotRes = await request(app)
       .post(`/api/projects/${projectId}/screenshots`)
       .set('Authorization', `Bearer ${adminToken}`)
-      .attach('screenshots', Buffer.from('shot-1'), {
+      .attach('screenshots', VALID_PNG_BYTES, {
         filename: 'shot1.png',
         contentType: 'image/png',
       })
-      .attach('screenshots', Buffer.from('shot-2'), {
+      .attach('screenshots', VALID_JPG_BYTES, {
         filename: 'shot2.jpg',
         contentType: 'image/jpeg',
+      })
+      .attach('screenshots', VALID_WEBP_BYTES, {
+        filename: 'shot3.webp',
+        contentType: 'image/webp',
       });
     expect(shotRes.status).toBe(200);
-    expect(shotRes.body.project.screenshots).toHaveLength(2);
+    expect(shotRes.body.project.screenshots).toHaveLength(3);
 
-    // Reject non-PDF document upload
+    // Reject non-PDF and spoofed PDF uploads
     const badDoc = await request(app)
       .post(`/api/projects/${projectId}/documents`)
       .set('Authorization', `Bearer ${adminToken}`)
-      .attach('documents', Buffer.from('not-a-pdf'), {
+      .attach('documents', Buffer.from('MZexecutable'), {
         filename: 'malware.exe',
         contentType: 'application/octet-stream',
       });
     expect(badDoc.status).toBe(400);
 
-    // Upload multiple PDFs
+    const spoofedPdf = await request(app)
+      .post(`/api/projects/${projectId}/documents`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('documents', Buffer.from('<html><script>evil()</script></html>'), {
+        filename: 'fake.pdf',
+        contentType: 'application/pdf',
+      });
+    expect(spoofedPdf.status).toBe(400);
+
+    // Reject oversized PDF (> 15 MB)
+    const oversizedPdf = await request(app)
+      .post(`/api/projects/${projectId}/documents`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('documents', Buffer.concat([Buffer.from('%PDF-1.4 '), Buffer.alloc(15 * 1024 * 1024 + 100)]), {
+        filename: 'huge.pdf',
+        contentType: 'application/pdf',
+      });
+    expect(oversizedPdf.status).toBe(400);
+
+    // Upload multiple valid PDFs including path traversal filename sanitization check
     const pdfRes = await request(app)
       .post(`/api/projects/${projectId}/documents`)
       .set('Authorization', `Bearer ${adminToken}`)
       .field('titles', JSON.stringify(['Project Report', 'Synopsis']))
       .attach('documents', Buffer.from('%PDF-1.4 sample 1'), {
-        filename: 'report.pdf',
+        filename: '../../evil/report.pdf',
         contentType: 'application/pdf',
       })
       .attach('documents', Buffer.from('%PDF-1.4 sample 2'), {
@@ -306,8 +387,41 @@ describe('PROJECT VAULT Backend API', () => {
     expect(pdfRes.body.project.documents).toHaveLength(2);
     expect(pdfRes.body.project.documents[0].title).toBe('Project Report');
     expect(pdfRes.body.project.documents[0].originalFilename).toBe('report.pdf');
+    expect(pdfRes.body.project.documents[0].format).toBe('pdf');
 
     const docId = pdfRes.body.project.documents[0]._id;
+
+    // Preview and Download endpoint headers check (mocking upstream fetch)
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockImplementation(async () => new Response(Buffer.from('%PDF-1.4 sample bytes'), { status: 200 }));
+    const previewRes = await request(app).get(`/api/projects/${slug}/documents/${docId}/file`);
+    expect(previewRes.status).toBe(200);
+    expect(previewRes.headers['content-type']).toContain('application/pdf');
+    expect(previewRes.headers['content-disposition']).toContain('inline; filename="report.pdf"');
+    expect(previewRes.headers['x-content-type-options']).toBe('nosniff');
+
+    const downloadRes = await request(app).get(`/api/projects/${slug}/documents/${docId}/file?download=1`);
+    expect(downloadRes.status).toBe(200);
+    expect(downloadRes.headers['content-disposition']).toContain('attachment; filename="report.pdf"');
+    fetchSpy.mockRestore();
+
+    // Rollback safety check: if DB save fails during PDF replace, new Cloudinary upload is rolled back and old file is NOT deleted
+    const cloudinaryMod = await import('../src/config/cloudinary.js');
+    cloudinaryMod.deleteFromCloudinary.mockClear();
+    cloudinaryMod.rollbackCloudinaryAssets.mockClear();
+    const saveSpy = vi.spyOn(Project.prototype, 'save').mockRejectedValueOnce(new Error('Simulated DB failure'));
+    const failedReplace = await request(app)
+      .put(`/api/projects/${projectId}/documents/${docId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('document', Buffer.from('%PDF-1.4 rollback test'), {
+        filename: 'rollback.pdf',
+        contentType: 'application/pdf',
+      });
+    expect(failedReplace.status).toBe(500);
+    expect(cloudinaryMod.rollbackCloudinaryAssets).toHaveBeenCalledTimes(1);
+    expect(cloudinaryMod.deleteFromCloudinary).not.toHaveBeenCalled();
+    saveSpy.mockRestore();
 
     // Replace PDF document
     const replaceRes = await request(app)
@@ -345,7 +459,7 @@ describe('PROJECT VAULT Backend API', () => {
     const profPhotoRes = await request(app)
       .post('/api/profile/photo')
       .set('Authorization', `Bearer ${adminToken}`)
-      .attach('photo', Buffer.from('avatar'), {
+      .attach('photo', VALID_PNG_BYTES, {
         filename: 'avatar.png',
         contentType: 'image/png',
       });
