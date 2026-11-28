@@ -185,6 +185,89 @@ describe('PROJECT VAULT Backend API', () => {
       });
   });
 
+  it('allows authenticated admin to change password, invalidates old tokens, and persists across restarts', async () => {
+    // Public visitor blocked
+    const unauth = await request(app).put('/api/auth/change-password').send({
+      currentPassword: 'StrongTestPassword123!',
+      newPassword: 'NewStrongPassword123!',
+      confirmPassword: 'NewStrongPassword123!',
+    });
+    expect(unauth.status).toBe(401);
+
+    // Weak password rejected
+    const weak = await request(app)
+      .put('/api/auth/change-password')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        currentPassword: 'StrongTestPassword123!',
+        newPassword: 'weak',
+        confirmPassword: 'weak',
+      });
+    expect(weak.status).toBe(400);
+
+    // Wrong current password rejected
+    const badCurrent = await request(app)
+      .put('/api/auth/change-password')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        currentPassword: 'WrongPassword123!',
+        newPassword: 'NewStrongPassword123!',
+        confirmPassword: 'NewStrongPassword123!',
+      });
+    expect(badCurrent.status).toBe(401);
+
+    // Valid password change succeeds
+    const okRes = await request(app)
+      .put('/api/auth/change-password')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        currentPassword: 'StrongTestPassword123!',
+        newPassword: 'NewStrongPassword123!',
+        confirmPassword: 'NewStrongPassword123!',
+      });
+    expect(okRes.status).toBe(200);
+
+    // Old JWT is immediately invalidated
+    const oldTokenMe = await request(app)
+      .get('/api/auth/me')
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(oldTokenMe.status).toBe(401);
+
+    // Simulate server restart / redeploy calling bootstrapDatabase() again
+    await bootstrapDatabase();
+
+    // Old password still rejected after restart
+    const oldPassLogin = await request(app).post('/api/auth/login').send({
+      email: 'admin@test.local',
+      password: 'StrongTestPassword123!',
+    });
+    expect(oldPassLogin.status).toBe(401);
+
+    // New password works after restart
+    const newPassLogin = await request(app).post('/api/auth/login').send({
+      email: 'admin@test.local',
+      password: 'NewStrongPassword123!',
+    });
+    expect(newPassLogin.status).toBe(200);
+
+    // Restore initial password for subsequent tests
+    await request(app)
+      .put('/api/auth/change-password')
+      .set('Authorization', `Bearer ${newPassLogin.body.token}`)
+      .send({
+        currentPassword: 'NewStrongPassword123!',
+        newPassword: 'StrongTestPassword123!',
+        confirmPassword: 'StrongTestPassword123!',
+      });
+  });
+
+  it('returns 403 for disallowed CORS origins instead of 500', async () => {
+    const blockedRes = await request(app)
+      .get('/api/health')
+      .set('Origin', 'https://untrusted-origin.example.com');
+    expect(blockedRes.status).toBe(403);
+  });
+
   it('creates, fetches by unique slug, searches, filters, sorts, updates, and deletes projects', async () => {
     const p1 = await request(app)
       .post('/api/projects')

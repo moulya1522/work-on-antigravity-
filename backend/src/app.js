@@ -12,9 +12,17 @@ export function createApp() {
 
   app.set('trust proxy', 1);
 
-  const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
+  const rawOrigins = [
+    process.env.CLIENT_URL,
+    process.env.CORS_ORIGIN,
+    process.env.FRONTEND_URL,
+  ]
+    .filter(Boolean)
+    .join(',');
+
+  const allowedOrigins = (rawOrigins || 'http://localhost:5173')
     .split(',')
-    .map((origin) => origin.trim().replace(/\/$/, ''))
+    .map((origin) => origin.trim().replace(/\/+$/, ''))
     .filter(Boolean);
 
   app.use(
@@ -28,12 +36,16 @@ export function createApp() {
       origin(origin, callback) {
         // Allow server-to-server requests, curl, and configured frontend origins
         if (!origin) return callback(null, true);
-        const normalized = origin.replace(/\/$/, '');
+        const normalized = origin.replace(/\/+$/, '');
         if (allowedOrigins.includes(normalized)) {
           return callback(null, true);
         }
-        return callback(new Error(`Origin ${origin} is not allowed by CORS.`));
+        const err = new Error(`Origin ${origin} is not allowed by CORS.`);
+        err.statusCode = 403;
+        return callback(err);
       },
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: false,
     })
   );

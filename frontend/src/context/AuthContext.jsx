@@ -48,6 +48,13 @@ export function AuthProvider({ children }) {
     return data;
   };
 
+  const changeAdminPassword = async (payload) => {
+    const data = await authApi.changePassword(payload);
+    localStorage.removeItem('pv_admin_token');
+    setAdmin(null);
+    return data;
+  };
+
   const logout = async () => {
     try {
       await authApi.logout();
@@ -66,6 +73,7 @@ export function AuthProvider({ children }) {
         loading,
         login,
         changeAdminEmail,
+        changeAdminPassword,
         logout,
       }}
     >

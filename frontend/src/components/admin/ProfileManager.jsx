@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { KeyRound, Save, Trash2, Upload, User } from 'lucide-react';
+import { KeyRound, Lock, Save, Trash2, Upload, User } from 'lucide-react';
 import { profileApi, getErrorMessage } from '../../services/api';
 import { useToast } from '../../context/ToastContext';
 import ChangeAdminEmailForm from './ChangeAdminEmailForm';
+import ChangeAdminPasswordForm from './ChangeAdminPasswordForm';
 
 export default function ProfileManager({ profile, onProfileUpdated }) {
   const { addToast } = useToast();
@@ -14,7 +15,7 @@ export default function ProfileManager({ profile, onProfileUpdated }) {
   const [githubUrl, setGithubUrl] = useState(profile?.githubUrl || '');
   const [saving, setSaving] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
-  const [showEmailChange, setShowEmailChange] = useState(false);
+  const [activeSecurityPanel, setActiveSecurityPanel] = useState(null);
 
   useEffect(() => {
     setName(profile?.name || '');
@@ -225,24 +226,41 @@ export default function ProfileManager({ profile, onProfileUpdated }) {
           }}
         >
           <div>
-            <h3 style={{ fontSize: '1.1rem', marginBottom: 4 }}>Administrator Login Email</h3>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: 4 }}>Administrator Account Security</h3>
             <p className="form-help">
-              Change the single authorized email address used to sign in to the Admin Dashboard.
+              Change your authorized login email or password. Changes are saved in MongoDB immediately.
             </p>
           </div>
-          {!showEmailChange && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             <button
               type="button"
-              className="btn btn-secondary btn-sm"
-              onClick={() => setShowEmailChange(true)}
+              className={`btn btn-sm ${activeSecurityPanel === 'email' ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() =>
+                setActiveSecurityPanel((prev) => (prev === 'email' ? null : 'email'))
+              }
             >
               <KeyRound size={15} />
               Change Admin Login Email
             </button>
-          )}
+            <button
+              type="button"
+              className={`btn btn-sm ${activeSecurityPanel === 'password' ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() =>
+                setActiveSecurityPanel((prev) => (prev === 'password' ? null : 'password'))
+              }
+            >
+              <Lock size={15} />
+              Change Admin Password
+            </button>
+          </div>
         </div>
 
-        {showEmailChange && <ChangeAdminEmailForm onCancel={() => setShowEmailChange(false)} />}
+        {activeSecurityPanel === 'email' && (
+          <ChangeAdminEmailForm onCancel={() => setActiveSecurityPanel(null)} />
+        )}
+        {activeSecurityPanel === 'password' && (
+          <ChangeAdminPasswordForm onCancel={() => setActiveSecurityPanel(null)} />
+        )}
       </div>
     </div>
   );

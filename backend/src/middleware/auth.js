@@ -31,6 +31,10 @@ export async function requireAdmin(req, res, next) {
       return res.status(401).json({ message: 'Authorized admin email changed. Please log in with the new email.' });
     }
 
+    if ((decoded.tv ?? 0) !== (admin.tokenVersion ?? 0)) {
+      return res.status(401).json({ message: 'Session invalidated after credentials update. Please log in again.' });
+    }
+
     req.admin = admin;
     return next();
   } catch (err) {

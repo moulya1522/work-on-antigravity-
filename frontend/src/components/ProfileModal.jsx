@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { X, Github, Linkedin, User, KeyRound } from 'lucide-react';
+import { X, Github, Linkedin, User, KeyRound, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ChangeAdminEmailForm from './admin/ChangeAdminEmailForm';
+import ChangeAdminPasswordForm from './admin/ChangeAdminPasswordForm';
 
 export default function ProfileModal({ open, onClose, profile }) {
   const { isAuthenticated } = useAuth();
-  const [showEmailChange, setShowEmailChange] = useState(false);
+  const [activePanel, setActivePanel] = useState(null);
 
   useEffect(() => {
     if (!open) {
-      setShowEmailChange(false);
+      setActivePanel(null);
       return;
     }
     const onKeyDown = (e) => {
@@ -111,17 +112,32 @@ export default function ProfileModal({ open, onClose, profile }) {
 
           {isAuthenticated && (
             <div style={{ width: '100%', borderTop: '1px solid var(--border-subtle)', paddingTop: 14, marginTop: 6 }}>
-              {!showEmailChange ? (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
                 <button
                   type="button"
-                  className="btn btn-secondary btn-sm"
-                  onClick={() => setShowEmailChange(true)}
+                  className={`btn btn-sm ${activePanel === 'email' ? 'btn-primary' : 'btn-secondary'}`}
+                  onClick={() => setActivePanel((prev) => (prev === 'email' ? null : 'email'))}
                 >
                   <KeyRound size={15} />
                   Change Admin Login Email
                 </button>
-              ) : (
-                <ChangeAdminEmailForm onCancel={() => setShowEmailChange(false)} />
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activePanel === 'password' ? 'btn-primary' : 'btn-secondary'}`}
+                  onClick={() => setActivePanel((prev) => (prev === 'password' ? null : 'password'))}
+                >
+                  <Lock size={15} />
+                  Change Admin Password
+                </button>
+              </div>
+              {activePanel === 'email' && (
+                <ChangeAdminEmailForm onCancel={() => setActivePanel(null)} />
+              )}
+              {activePanel === 'password' && (
+                <ChangeAdminPasswordForm
+                  onSuccess={onClose}
+                  onCancel={() => setActivePanel(null)}
+                />
               )}
             </div>
           )}

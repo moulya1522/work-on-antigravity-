@@ -1,6 +1,18 @@
 import axios from 'axios';
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+function resolveApiBaseUrl() {
+  const raw = (
+    import.meta.env.VITE_API_URL ||
+    import.meta.env.VITE_API_BASE_URL ||
+    'http://localhost:5000/api'
+  )
+    .trim()
+    .replace(/\/+$/, '');
+
+  return raw.endsWith('/api') ? raw : `${raw}/api`;
+}
+
+const API_BASE_URL = resolveApiBaseUrl();
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -23,6 +35,7 @@ export const authApi = {
   login: (credentials) => apiClient.post('/auth/login', credentials).then((r) => r.data),
   me: () => apiClient.get('/auth/me').then((r) => r.data),
   changeEmail: (payload) => apiClient.put('/auth/change-email', payload).then((r) => r.data),
+  changePassword: (payload) => apiClient.put('/auth/change-password', payload).then((r) => r.data),
   logout: () => apiClient.post('/auth/logout').then((r) => r.data),
 };
 
